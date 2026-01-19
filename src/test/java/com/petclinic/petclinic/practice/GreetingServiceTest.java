@@ -53,10 +53,8 @@ public class GreetingServiceTest {
         // When
         final String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
         // Then
-        Stream<String> beanDefinitionNamesAsStream = Arrays.stream(beanDefinitionNames);
-        logger.info(beanDefinitionNamesAsStream.collect(Collectors.joining(",")));
-        beanDefinitionNamesAsStream = Arrays.stream(beanDefinitionNames);
-        long greetingserviceInstanceCount = beanDefinitionNamesAsStream.filter(s -> s.toLowerCase().contains("greetingservice")).count();
+        logger.info(String.join(",", beanDefinitionNames));
+        long greetingserviceInstanceCount = Arrays.stream(beanDefinitionNames).filter(s -> s.toLowerCase().contains("greetingservice")).count();
         // Then
         assertThat(greetingserviceInstanceCount).isEqualTo(1);
     }
