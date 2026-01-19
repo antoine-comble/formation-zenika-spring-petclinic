@@ -8,7 +8,9 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StopWatch;
 
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 @Aspect
@@ -22,14 +24,18 @@ public class LogAspect {
     @Before("execution(* com.petclinic.petclinic.core.*Service.*(..))")
     //@Before("execution(* com.petclinic.petclinic.core.*Service.findAll())")
     public void log(JoinPoint joinPoint) throws Throwable {
-        logger.info("Service exécuté : " + joinPoint.getSignature().getName() + " - " + joinPoint.getTarget().getClass().getName());
+        logger.info("Before - Service exécuté : " + joinPoint.getSignature().getName() + " - " + joinPoint.getTarget().getClass().getName());
     }
 
     @Around("@annotation(findAll)")
     public Object aroundLog(ProceedingJoinPoint joinPoint, FindAll findAll) throws Throwable {
-        logger.info("Début : " + joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName());
+        StopWatch stopWatch = new StopWatch();
+        logger.info("Around - Début : " + joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName());
+        stopWatch.start();
         Object result = joinPoint.proceed();
-        logger.info("Fin : " + joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName());
+        stopWatch.stop();
+        logger.info("Around - Fin : " + joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName());
+        logger.info("Around - Duration : " + stopWatch.getTotalTime(TimeUnit.MILLISECONDS) + " ms");
         return result;
     }
 }
