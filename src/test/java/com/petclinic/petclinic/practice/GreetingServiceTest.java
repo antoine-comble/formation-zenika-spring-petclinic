@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,7 +14,7 @@ public class GreetingServiceTest {
     GreetingService greetingService;
 
     public GreetingServiceTest() {
-        applicationContext = new AnnotationConfigApplicationContext("com.petclinic.petclinic");
+        applicationContext = new AnnotationConfigApplicationContext("com.petclinic.petclinic.practice");
         greetingService = applicationContext.getBean(GreetingService.class);
     }
 
@@ -48,8 +49,10 @@ public class GreetingServiceTest {
         // When
         String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
         // Then
-        Arrays.stream(beanDefinitionNames).forEach(System.out::println);
+        Stream<String> beanDefinitionNamesAsStream = Arrays.stream(beanDefinitionNames);
+        beanDefinitionNamesAsStream.forEach(System.out::println);
+        long greetingserviceInstanceCount = beanDefinitionNamesAsStream.filter(s -> s.toLowerCase().contains("greetingservice")).count();
         // Then
-        assertThat(beanDefinitionNames.length).isGreaterThanOrEqualTo(1);
+        assertThat(greetingserviceInstanceCount).isEqualTo(1);
     }
 }
