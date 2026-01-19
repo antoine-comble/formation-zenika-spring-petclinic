@@ -4,14 +4,18 @@ import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Arrays;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class GreetingServiceTest {
 
-    AnnotationConfigApplicationContext applicationContext;
-    GreetingService greetingService;
+    final Logger logger = Logger.getLogger(this.getClass().getName());
+
+    final AnnotationConfigApplicationContext applicationContext;
+    final GreetingService greetingService;
 
     public GreetingServiceTest() {
         applicationContext = new AnnotationConfigApplicationContext("com.petclinic.petclinic.practice");
@@ -21,9 +25,9 @@ public class GreetingServiceTest {
     @Test
     public void shouldGreetSuccessfully() {
         // Given
-        GreetingService greetingService = new GreetingService();
+        final GreetingService greetingService = new GreetingService();
         // When
-        String hello = greetingService.sayHi();
+        final String hello = greetingService.sayHi();
         // Then
         assertThat(hello).isEqualTo("Hello");
     }
@@ -31,7 +35,7 @@ public class GreetingServiceTest {
     @Test
     public void shouldGreetSuccessfullyUsingInjection() {
         // When
-        String hello = greetingService.sayHi();
+        final String hello = greetingService.sayHi();
         // Then
         assertThat(hello).isEqualTo("Hello");
     }
@@ -39,7 +43,7 @@ public class GreetingServiceTest {
     @Test
     public void shouldCountBeanDefinitions() {
         // When
-        int count = applicationContext.getBeanDefinitionCount();
+        final int count = applicationContext.getBeanDefinitionCount();
         // Then
         assertThat(count).isGreaterThanOrEqualTo(1);
     }
@@ -47,10 +51,11 @@ public class GreetingServiceTest {
     @Test
     public void shouldDisplayBeanDefinitions() {
         // When
-        String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
+        final String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
         // Then
         Stream<String> beanDefinitionNamesAsStream = Arrays.stream(beanDefinitionNames);
-        beanDefinitionNamesAsStream.forEach(System.out::println);
+        logger.info(beanDefinitionNamesAsStream.collect(Collectors.joining(",")));
+        beanDefinitionNamesAsStream = Arrays.stream(beanDefinitionNames);
         long greetingserviceInstanceCount = beanDefinitionNamesAsStream.filter(s -> s.toLowerCase().contains("greetingservice")).count();
         // Then
         assertThat(greetingserviceInstanceCount).isEqualTo(1);
