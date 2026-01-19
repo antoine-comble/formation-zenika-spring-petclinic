@@ -2,6 +2,8 @@ package com.petclinic.petclinic.core;
 
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,5 +17,10 @@ public class VisitService {
 
     public Optional<Visit> findByReferenceNumber(final String referenceNumber) {
         return visitRepository.findByReferenceNumber(referenceNumber);
+    }
+
+    @FindAll
+    public List<Visit> findAll() {
+        return new ArrayList<Visit>();
     }
 }

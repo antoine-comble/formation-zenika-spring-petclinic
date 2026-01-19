@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,5 +27,11 @@ public class VisitServiceTest {
     public void shouldFindByReferenceNumberV02_23() {
         Optional<Visit> visit = visitService.findByReferenceNumber("V02-23");
         assertThat(visit).contains(new Visit(1L, "V02-23", LocalDate.of(2026, Month.JANUARY, 19), "dental care"));
+    }
+
+    @Test
+    public void shouldFindAllVisits() {
+        List<Visit> all = visitService.findAll();
+        assertThat(all.size()).isEqualTo(0);
     }
 }
