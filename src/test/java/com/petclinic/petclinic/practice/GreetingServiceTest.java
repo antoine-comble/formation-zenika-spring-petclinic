@@ -1,15 +1,16 @@
 package com.petclinic.petclinic.practice;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Arrays;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@SpringBootTest
 public class GreetingServiceTest {
 
     final Logger logger = Logger.getLogger(this.getClass().getName());
@@ -17,9 +18,10 @@ public class GreetingServiceTest {
     final AnnotationConfigApplicationContext applicationContext;
     final GreetingService greetingService;
 
-    public GreetingServiceTest() {
-        applicationContext = new AnnotationConfigApplicationContext("com.petclinic.petclinic.practice");
-        greetingService = applicationContext.getBean(GreetingService.class);
+    @Autowired
+    public GreetingServiceTest(GreetingService greetingService) {
+        this.applicationContext = new AnnotationConfigApplicationContext("com.petclinic.petclinic.practice");
+        this.greetingService = greetingService;
     }
 
     @Test
