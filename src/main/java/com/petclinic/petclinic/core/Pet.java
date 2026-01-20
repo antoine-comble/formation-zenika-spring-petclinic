@@ -6,11 +6,11 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Pet {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     Long id;
 
     String type;
-
     String name;
 
     public Pet(Long id, String type, String name) {
@@ -19,5 +19,15 @@ public class Pet {
         this.name = name;
     }
 
-    public Pet() {}
+    public Pet() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }

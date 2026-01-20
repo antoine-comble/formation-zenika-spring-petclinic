@@ -1,7 +1,6 @@
 package com.petclinic.petclinic.core;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Cascade;
 
 import java.time.LocalDate;
 
@@ -22,13 +21,9 @@ public class Visit {
     @JoinColumn(name = "pet_id")
     Pet pet;
 
-    public Pet getPet() {
-        return pet;
-    }
-
-    public void setPet(Pet pet) {
-        this.pet = pet;
-    }
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "owner_id")
+    Owner owner;
 
     public Visit(Long id, String referenceNumber, LocalDate date, String purpose) {
         this.id = id;
@@ -44,5 +39,21 @@ public class Visit {
     public boolean equals(Object obj) {
         if (!(obj instanceof Visit)) return false;
         return id.equals(((Visit) obj).id) && referenceNumber.equals(((Visit) obj).referenceNumber) && date.equals(((Visit) obj).date) && purpose.equals(((Visit) obj).purpose);
+    }
+
+    public Pet getPet() {
+        return this.pet;
+    }
+
+    public void setPet(Pet pet) {
+        this.pet = pet;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
+    }
+
+    public Owner getOwner() {
+        return this.owner;
     }
 }

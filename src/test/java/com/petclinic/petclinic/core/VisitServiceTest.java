@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -25,6 +26,7 @@ public class VisitServiceTest {
     public void setUp() {
         visitSetUp = new Visit(null, "V01-23", LocalDate.of(2026, Month.JANUARY, 20), "dental care");
         visitSetUp.setPet(new Pet(null, "dog", "Luna"));
+        visitSetUp.setOwner(new Owner(null, "Joe", "Doe", 1000));
         this.visitService.save(visitSetUp);
     }
 
@@ -58,6 +60,15 @@ public class VisitServiceTest {
         assertThat(v.date.getDayOfMonth()).isEqualTo(20);
         assertThat(v.purpose).isEqualTo("dental care");
         assertThat(v.pet.name).isEqualTo("Luna");
+    }
+
+    @Test
+    @Transactional
+    public void shouldFindVisitWithOwner() {
+        Optional<Visit> visit = visitService.findByReferenceNumber("V01-23");
+        Visit v = visit.orElse(null);
+        assertThat(v).isNotNull();
+        assertThat(v.owner.firstName).isEqualTo("Joe");
     }
 
 }
