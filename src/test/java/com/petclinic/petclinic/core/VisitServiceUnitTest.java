@@ -30,9 +30,11 @@ public class VisitServiceUnitTest {
         when(visitRepository.findByReferenceNumber("V01-23")).thenReturn(Optional.of(visit));
 
         Optional<Visit> byReferenceNumber = this.visitService.findByReferenceNumber("V01-23");
-        assertThat(byReferenceNumber).contains(visit);
+        Visit result = byReferenceNumber.orElse(null);
 
-        Visit result = byReferenceNumber.get();
+        assertThat(byReferenceNumber).contains(visit);
+        assertThat(result).isEqualTo(visit);
+        assertThat(result).isNotNull();
         assertThat(result.purpose).isEqualTo("Psychogolic care");
         assertThat(result.date.getDayOfMonth()).isEqualTo(20);
 
