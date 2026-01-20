@@ -40,4 +40,21 @@ public class OwnerServiceTest {
         assertThat(owner.pets).extracting((Pet::getName)).contains("Luna");
         assertThat(owner.pets).extracting((Pet::getName)).contains("Fleur");
     }
+
+    @Test
+    @Transactional
+    public void shouldUpdateDogLunaForJoe() {
+        final Owner owner = ownerService.findByFirstName("Joe");
+        assertThat(owner.pets.size()).isEqualTo(2);
+        assertThat(owner.pets).extracting((Pet::getName)).contains("Luna");
+
+        final List<Pet> luna = owner.pets.stream().filter(p -> p.name.equals("Luna")).toList();
+        assertThat(luna.size()).isEqualTo(1);
+
+        luna.getFirst().setName("Miro");
+        ownerService.save(owner);
+
+        final Owner owner2 = ownerService.findByFirstName("Joe");
+        assertThat(owner2.pets).extracting((Pet::getName)).contains("Miro");
+    }
 }
