@@ -1,11 +1,20 @@
 package com.petclinic.petclinic.core;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "visit")
 public class Visit {
+    @Id
+    @GeneratedValue
     Long id;
+    @Column(name = "referenceNumber", unique = true)
     String referenceNumber;
+    @Column(name = "date")
     LocalDate date;
+    @Column(name = "purpose")
     String purpose;
 
     public Visit(Long id, String referenceNumber, LocalDate date, String purpose) {
@@ -15,12 +24,12 @@ public class Visit {
         this.purpose = purpose;
     }
 
+    public Visit() {
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Visit)) return false;
-        return id.equals(((Visit) obj).id)
-                && referenceNumber.equals(((Visit) obj).referenceNumber)
-                && date.equals(((Visit) obj).date)
-                && purpose.equals(((Visit) obj).purpose);
+        return id.equals(((Visit) obj).id) && referenceNumber.equals(((Visit) obj).referenceNumber) && date.equals(((Visit) obj).date) && purpose.equals(((Visit) obj).purpose);
     }
 }

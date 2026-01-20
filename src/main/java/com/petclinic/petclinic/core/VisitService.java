@@ -2,7 +2,6 @@ package com.petclinic.petclinic.core;
 
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +20,10 @@ public class VisitService {
 
     @FindAll
     public List<Visit> findAll() {
-        return new ArrayList<Visit>();
+        return visitRepository.findAll();
+    }
+
+    public Visit save(Visit visit) {
+        return visitRepository.save(visit);
     }
 }
