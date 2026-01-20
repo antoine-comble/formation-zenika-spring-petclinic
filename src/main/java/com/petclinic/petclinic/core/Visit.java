@@ -1,6 +1,7 @@
 package com.petclinic.petclinic.core;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 
 import java.time.LocalDate;
 
@@ -16,6 +17,18 @@ public class Visit {
     LocalDate date;
     @Column(name = "purpose")
     String purpose;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pet_id")
+    Pet pet;
+
+    public Pet getPet() {
+        return pet;
+    }
+
+    public void setPet(Pet pet) {
+        this.pet = pet;
+    }
 
     public Visit(Long id, String referenceNumber, LocalDate date, String purpose) {
         this.id = id;
