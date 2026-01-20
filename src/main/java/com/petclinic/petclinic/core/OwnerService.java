@@ -19,4 +19,8 @@ public class OwnerService {
     public Optional<Owner> findByFirstName(String firstname) {
         return ownerRepository.findByFirstName(firstname);
     }
+
+    public Optional<Owner> findByFirstNameAndLastName(String firstName, String lastName) {
+        return ownerRepository.findByFirstNameAndLastName(firstName, lastName);
+    }
 }

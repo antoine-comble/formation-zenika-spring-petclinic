@@ -73,4 +73,15 @@ public class OwnerServiceTest {
         assertThat(owner2).isNotNull();
         assertThat(owner2.pets).extracting((Pet::getName)).contains("Miro");
     }
+
+    @Test
+    @Transactional
+    public void shouldFindByFirstNameAndLastName() {
+        final Optional<Owner> actualOwner = ownerService.findByFirstNameAndLastName("Joe", "Doe");
+        final Owner owner = actualOwner.orElse(null);
+        assertThat(owner).isNotNull();
+        assertThat(owner.lastName).isEqualTo("Doe");
+        assertThat(owner.firstName).isEqualTo("Joe");
+
+    }
 }
