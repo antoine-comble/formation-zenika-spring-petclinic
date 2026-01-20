@@ -71,7 +71,7 @@ public class OwnerServiceTest {
         final Optional<Owner> actualOwner2 = ownerService.findByFirstName("Joe");
         final Owner owner2 = actualOwner2.orElse(null);
         assertThat(owner2).isNotNull();
-        assertThat(owner2.pets).extracting((Pet::getName)).contains("Miro");
+        assertThat(owner2.pets).extracting(Pet::getName).contains("Miro");
     }
 
     @Test

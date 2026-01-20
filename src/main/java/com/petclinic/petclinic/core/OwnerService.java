@@ -1,5 +1,6 @@
 package com.petclinic.petclinic.core;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -8,19 +9,40 @@ import java.util.Optional;
 public class OwnerService {
     private final OwnerRepository ownerRepository;
 
-    public OwnerService(OwnerRepository ownerRepository) {
+    public OwnerService(final OwnerRepository ownerRepository) {
         this.ownerRepository = ownerRepository;
     }
 
-    public Owner save(Owner owner) {
-        return ownerRepository.save(owner);
+    @Transactional
+    public Owner save(final Owner owner) {
+        return this.ownerRepository.save(owner);
     }
 
-    public Optional<Owner> findByFirstName(String firstname) {
-        return ownerRepository.findByFirstName(firstname);
+    public Optional<Owner> findByFirstName(final String firstname) {
+        return this.ownerRepository.findByFirstName(firstname);
     }
 
-    public Optional<Owner> findByFirstNameAndLastName(String firstName, String lastName) {
-        return ownerRepository.findByFirstNameAndLastName(firstName, lastName);
+    public Optional<Owner> findByFirstNameAndLastName(final String firstName, final String lastName) {
+        return this.ownerRepository.findByFirstNameAndLastName(firstName, lastName);
+    }
+
+    @Transactional
+    public void transferFounds(final Owner ownerToCredit, final Owner ownerToDebit, final double amount) {
+        creditAmount(ownerToCredit, amount);
+        debitAmount(ownerToDebit, amount);
+    }
+
+    private void creditAmount(final Owner ownerToCredit, final double amount) {
+        ownerToCredit.accountStatement = ownerToCredit.accountStatement + amount;
+        this.ownerRepository.save(ownerToCredit);
+    }
+
+    private void debitAmount(final Owner ownerToDebit, final double amount) {
+        final double ownerToDebitNewAmount = ownerToDebit.accountStatement - amount;
+        if (ownerToDebitNewAmount < 0) {
+            throw new RuntimeException("Account value cannot be below 0");
+        }
+        ownerToDebit.accountStatement = ownerToDebitNewAmount;
+        this.ownerRepository.save(ownerToDebit);
     }
 }
