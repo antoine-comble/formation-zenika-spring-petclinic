@@ -27,8 +27,8 @@ public class OwnerServiceTransactionsTest {
     @Transactional
     public void shouldTransferFunds() {
         final Owner ownerToCredit = ownerService.save(new Owner(null, "Jimi", "Hendrix", 0));
-        final Owner ownerToDedit = ownerService.save(new Owner(null, "Robert", "Plant", 1000));
-        ownerService.transferFounds(ownerToCredit, ownerToDedit, 200);
+        final Owner ownerToDebit = ownerService.save(new Owner(null, "Robert", "Plant", 1000));
+        ownerService.transferFounds(ownerToCredit, ownerToDebit, 200);
 
         final Optional<Owner> jimiHendrix = ownerService.findByFirstNameAndLastName("Jimi", "Hendrix");
         assertThat(jimiHendrix).isNotEmpty();
@@ -43,8 +43,8 @@ public class OwnerServiceTransactionsTest {
     @Transactional
     public void shouldTransferFunds2() {
         final Owner ownerToCredit = ownerService.save(new Owner(null, "Jimi", "Hendrix", 200));
-        final Owner ownerToDedit = ownerService.save(new Owner(null, "Robert", "Plant", 1000));
-        ownerService.transferFounds(ownerToCredit, ownerToDedit, 200);
+        final Owner ownerToDebit = ownerService.save(new Owner(null, "Robert", "Plant", 1000));
+        ownerService.transferFounds(ownerToCredit, ownerToDebit, 200);
 
         final Optional<Owner> jimiHendrix = ownerService.findByFirstNameAndLastName("Jimi", "Hendrix");
         assertThat(jimiHendrix).isNotEmpty();
@@ -59,9 +59,9 @@ public class OwnerServiceTransactionsTest {
     @Transactional
     public void shouldTransferFundsNegativeAccountThrowException() {
         final Owner ownerToCredit = ownerService.save(new Owner(null, "Jimi", "Hendrix", 200));
-        final Owner ownerToDedit = ownerService.save(new Owner(null, "Robert", "Plant", 100));
+        final Owner ownerToDebit = ownerService.save(new Owner(null, "Robert", "Plant", 100));
         assertThatExceptionOfType(RuntimeException.class)
-                .isThrownBy(() -> ownerService.transferFounds(ownerToCredit, ownerToDedit, 200))
+                .isThrownBy(() -> ownerService.transferFounds(ownerToCredit, ownerToDebit, 200))
                 .withMessageContaining("Account value cannot be below 0");
     }
 }
