@@ -16,6 +16,7 @@ import static org.mockito.Mockito.*;
 public class VisitServiceUnitTest {
 
     private final VisitService visitService;
+
     @MockitoBean
     private VisitRepository visitRepository;
 
