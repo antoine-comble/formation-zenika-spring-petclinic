@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -28,14 +29,25 @@ public class OwnerServiceTest {
     @Test
     @Transactional
     public void shouldFindOwnerByFirstName() {
-        Owner owner = ownerService.findByFirstName("Joe");
+        final Optional<Owner> actualOwner = ownerService.findByFirstName("Joe");
+        final Owner owner = actualOwner.orElse(null);
+        assertThat(owner).isNotNull();
         assertThat(owner.lastName).isEqualTo("Doe");
     }
 
     @Test
     @Transactional
+    public void shouldNotFindOwnerByFirstNameJack() {
+        final Optional<Owner> actualOwner = ownerService.findByFirstName("Jack");
+        assertThat(actualOwner).isEmpty();
+    }
+
+    @Test
+    @Transactional
     public void shouldHave2PetsForJoe() {
-        Owner owner = ownerService.findByFirstName("Joe");
+        final Optional<Owner> actualOwner = ownerService.findByFirstName("Joe");
+        final Owner owner = actualOwner.orElse(null);
+        assertThat(owner).isNotNull();
         assertThat(owner.pets.size()).isEqualTo(2);
         assertThat(owner.pets).extracting((Pet::getName)).contains("Luna");
         assertThat(owner.pets).extracting((Pet::getName)).contains("Fleur");
@@ -44,7 +56,9 @@ public class OwnerServiceTest {
     @Test
     @Transactional
     public void shouldUpdateDogLunaForJoe() {
-        final Owner owner = ownerService.findByFirstName("Joe");
+        final Optional<Owner> actualOwner = ownerService.findByFirstName("Joe");
+        final Owner owner = actualOwner.orElse(null);
+        assertThat(owner).isNotNull();
         assertThat(owner.pets.size()).isEqualTo(2);
         assertThat(owner.pets).extracting((Pet::getName)).contains("Luna");
 
@@ -54,7 +68,9 @@ public class OwnerServiceTest {
         luna.getFirst().setName("Miro");
         ownerService.save(owner);
 
-        final Owner owner2 = ownerService.findByFirstName("Joe");
+        final Optional<Owner> actualOwner2 = ownerService.findByFirstName("Joe");
+        final Owner owner2 = actualOwner2.orElse(null);
+        assertThat(owner2).isNotNull();
         assertThat(owner2.pets).extracting((Pet::getName)).contains("Miro");
     }
 }
