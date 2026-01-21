@@ -7,23 +7,26 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/owner")
 public class OwnerController {
 
-    @Autowired
     private final OwnerService ownerService;
 
     public OwnerController(OwnerService ownerService) {
         this.ownerService = ownerService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/owner/{id}")
     public Optional<Owner> findById(@PathVariable Long id) {
         return ownerService.findById(id);
     }
 
-    @GetMapping("/search")
+    @GetMapping("/owner/search")
     public List<Owner> findByFirstName(@RequestParam String firstName) {
         return ownerService.findByFirstName(firstName);
+    }
+
+    @PostMapping(value = "/owner")
+    public Owner save(@RequestBody Owner owner) {
+        return ownerService.save(owner);
     }
 }
