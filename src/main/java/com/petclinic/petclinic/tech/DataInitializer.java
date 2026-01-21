@@ -5,7 +5,6 @@ import com.petclinic.petclinic.core.Pet;
 import com.petclinic.petclinic.core.Visit;
 import com.petclinic.petclinic.core.VisitService;
 import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
@@ -17,7 +16,6 @@ import java.util.List;
 @Profile("dev")
 public class DataInitializer {
 
-    @Autowired
     private final VisitService visitService;
 
     public DataInitializer(VisitService visitService) {
