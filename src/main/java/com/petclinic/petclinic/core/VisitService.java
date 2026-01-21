@@ -1,5 +1,6 @@
 package com.petclinic.petclinic.core;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,7 +28,11 @@ public class VisitService {
         return visitRepository.save(visit);
     }
 
-    public Optional<Visit> findById(final Long id) {
-        return visitRepository.findById(id);
+    public Visit findById(final Long id) {
+        final Optional<Visit> visit = visitRepository.findById(id);
+        if (visit.isEmpty()) {
+            throw new EntityNotFoundException();
+        }
+        return visit.get();
     }
 }

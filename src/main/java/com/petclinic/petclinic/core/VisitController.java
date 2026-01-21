@@ -20,7 +20,7 @@ public class VisitController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Visit> findById(@PathVariable Long id) {
+    public Visit findById(@PathVariable Long id) {
         return visitService.findById(id);
     }
 
