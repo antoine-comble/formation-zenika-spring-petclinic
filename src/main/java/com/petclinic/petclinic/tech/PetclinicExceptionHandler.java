@@ -22,6 +22,6 @@ public class PetclinicExceptionHandler extends Throwable {
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<Object> handleException(EntityNotFoundException ex) {
         log.error(ex.getMessage(), ex);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Entity not found");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Entity not found : " + ex.getMessage());
     }
 }

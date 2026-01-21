@@ -31,7 +31,7 @@ public class VisitService {
     public Visit findById(final Long id) {
         final Optional<Visit> visit = visitRepository.findById(id);
         if (visit.isEmpty()) {
-            throw new EntityNotFoundException();
+            throw new EntityNotFoundException("Visit with id " + id + " is not found");
         }
         return visit.get();
     }
