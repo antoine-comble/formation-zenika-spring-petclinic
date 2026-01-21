@@ -1,9 +1,14 @@
 package com.petclinic.petclinic.core;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
 public class Owner {
 
@@ -33,5 +38,10 @@ public class Owner {
 
     public void setPets(List<Pet> pets) {
         this.pets = pets;
+    }
+
+    @Override
+    public String toString() {
+        return this.id + "-" + this.firstName + "-" + this.lastName + "-" + this.accountStatement;
     }
 }

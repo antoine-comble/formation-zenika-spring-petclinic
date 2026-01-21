@@ -1,11 +1,15 @@
 package com.petclinic.petclinic.core;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "visit")
+@Getter
+@Setter
 public class Visit {
     @Id
     @GeneratedValue
@@ -41,19 +45,4 @@ public class Visit {
         return id.equals(((Visit) obj).id) && referenceNumber.equals(((Visit) obj).referenceNumber) && date.equals(((Visit) obj).date) && purpose.equals(((Visit) obj).purpose);
     }
 
-    public Pet getPet() {
-        return this.pet;
-    }
-
-    public void setPet(Pet pet) {
-        this.pet = pet;
-    }
-
-    public void setOwner(Owner owner) {
-        this.owner = owner;
-    }
-
-    public Owner getOwner() {
-        return this.owner;
-    }
 }

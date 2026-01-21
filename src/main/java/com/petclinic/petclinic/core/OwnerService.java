@@ -3,6 +3,7 @@ package com.petclinic.petclinic.core;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,7 +19,7 @@ public class OwnerService {
         return this.ownerRepository.save(owner);
     }
 
-    public Optional<Owner> findByFirstName(final String firstname) {
+    public List<Owner> findByFirstName(final String firstname) {
         return this.ownerRepository.findByFirstName(firstname);
     }
 
@@ -44,5 +45,9 @@ public class OwnerService {
         }
         ownerToDebit.accountStatement = ownerToDebitNewAmount;
         this.ownerRepository.save(ownerToDebit);
+    }
+
+    public Optional<Owner> findById(final Long id) {
+        return this.ownerRepository.findById(id);
     }
 }

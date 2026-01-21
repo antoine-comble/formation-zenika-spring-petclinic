@@ -3,7 +3,11 @@ package com.petclinic.petclinic.core;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 public class Pet {
     @Id
@@ -20,14 +24,6 @@ public class Pet {
     }
 
     public Pet() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
 }
