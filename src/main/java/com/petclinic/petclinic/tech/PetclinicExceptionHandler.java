@@ -15,13 +15,13 @@ public class PetclinicExceptionHandler extends Throwable {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<Object> handleException(MethodArgumentTypeMismatchException ex) {
         log.error(ex.getMessage(), ex);
-        String errorMessage = ex.getParameter() + " : The value for argument " + ex.getParameter().getParameterName() + " is not valid";
+        final String errorMessage = "Error " + HttpStatus.BAD_REQUEST + ". [Property " + ex.getPropertyName() + ", " + "value " + ex.getValue() + "] cannot be converted. Required type: " + ex.getRequiredType();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<Object> handleException(EntityNotFoundException ex) {
         log.error(ex.getMessage(), ex);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Entity not found : " + ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error " + HttpStatus.NOT_FOUND + ". " + ex.getMessage());
     }
 }
